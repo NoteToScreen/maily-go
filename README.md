@@ -33,7 +33,7 @@ func getFirstName(name string) string {
 	return strings.Split(name, " ")[0]
 }
 
-data := maily.TemplateData{
+templateData := maily.TemplateData{
 	"nameOfPerson": "John Q. Smith",
 	"message": "Hello this is important.",
 	"randomParameter": 42,
@@ -42,11 +42,11 @@ data := maily.TemplateData{
 funcs := maily.FuncMap{
 	"fname": getFirstName,
 }
-result, err := context.SendMail("John Smith", "john_smith@example.com", "importantMessage", data, funcs, funcs)
+result, err := context.SendMail("John Smith", "john_smith@example.com", "importantMessage", templateData, funcs, funcs)
 ```
 
-`data` is a `TemplateData` map (really a `map[string]interface{}`) which is passed to the template. `funcs` is a `FuncMap` which contain functions that can be used from templates.
+`templateData` is a `TemplateData` map (really a `map[string]interface{}`) which is passed to the template. `funcs` is a `FuncMap` which contain functions that can be used from templates.
 
-For example, if a template file contained `{{ .data.nameOfPerson | fname }}`, this would be evaluated to `John` in the above example. See the [text/template package documentation](https://golang.org/pkg/text/template/) for more details about templating.
+For example, if a template file contained `{{ .Data.nameOfPerson | fname }}`, this would be evaluated to `John` in the above example. See the [text/template package documentation](https://golang.org/pkg/text/template/) for more details about templating.
 
 `result` is a struct of type `EmailResult`. Currently, it only contains `MessageID`, which lets you know the value of the `Message-ID` header in the sent email. This can be useful if you're building an application where it's important to track replies.
