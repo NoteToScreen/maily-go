@@ -49,12 +49,20 @@ func (c *Context) SendMail(toName string, toEmail string, templateName string, d
 
 	textEncodedBuf := bytes.NewBufferString("")
 	textEncodedWriter := quotedprintable.NewWriter(textEncodedBuf)
-	textEncodedWriter.Write([]byte(textBody))
+	_, err = textEncodedWriter.Write([]byte(textBody))
+	if err != nil {
+		textEncodedWriter.Close()
+		return EmailResult{}, err
+	}
 	textEncodedWriter.Close()
 
 	htmlEncodedBuf := bytes.NewBufferString("")
 	htmlEncodedWriter := quotedprintable.NewWriter(htmlEncodedBuf)
-	htmlEncodedWriter.Write([]byte(htmlBody))
+	_, err = htmlEncodedWriter.Write([]byte(htmlBody))
+	if err != nil {
+		htmlEncodedWriter.Close()
+		return EmailResult{}, err
+	}
 	htmlEncodedWriter.Close()
 
 	messageIDRandom := strconv.FormatInt(time.Now().Unix(), 10) + "." + strconv.Itoa(rand.Intn(999999))
