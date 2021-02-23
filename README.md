@@ -1,4 +1,6 @@
 # maily-go
+![CI status](https://github.com/NoteToScreen/maily-go/workflows/CI/badge.svg)
+
 Maily is a simple Go library for sending templated email messages. The built-in `text/template` and `html/template` packages are used for templating, and `net/smtp` is used to send the actual email. Maily takes care of evaluating your templates, building a MIME multipart message, and sending your email.
 
 ## Usage
